@@ -27,6 +27,7 @@ async function loadOrders() {
     alert("خطا در گرفتن سفارش‌ها");
     return;
   }
+  loadOrders();
 
   const container = document.getElementById("orders");
   container.innerHTML = "";
