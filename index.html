@@ -6,6 +6,7 @@
 <title>Noor VPN</title>
 
 <style>
+
 body{
 margin:0;
 font-family:tahoma;
@@ -29,6 +30,10 @@ margin-bottom:20px;
 box-shadow:0 10px 30px rgba(0,0,0,0.3);
 }
 
+h2,h3{
+margin-top:0;
+}
+
 button{
 background:linear-gradient(45deg,#ff9800,#ff5722);
 border:none;
@@ -40,22 +45,49 @@ margin-top:12px;
 width:100%;
 font-weight:bold;
 font-size:15px;
+transition:0.3s;
+}
+
+button:hover{
+transform:scale(1.03);
 }
 
 .hidden{display:none;}
+
+.plans-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:12px;
+margin-top:15px;
+}
 
 .plan-card{
 background:rgba(255,255,255,0.08);
 padding:15px;
 border-radius:14px;
 cursor:pointer;
+transition:0.3s;
 border:2px solid transparent;
-margin-top:10px;
+}
+
+.plan-card:hover{
+transform:translateY(-4px);
 }
 
 .plan-card.active{
 border:2px solid #ff9800;
 background:rgba(255,152,0,0.15);
+}
+
+.plan-size{
+font-size:16px;
+font-weight:bold;
+margin-bottom:6px;
+}
+
+.plan-price{
+font-size:14px;
+opacity:0.9;
 }
 
 input{
@@ -66,57 +98,99 @@ border-radius:10px;
 border:none;
 font-size:14px;
 }
+
+hr{
+border:0;
+border-top:1px solid rgba(255,255,255,0.15);
+margin:15px 0;
+}
+
+.small{
+font-size:14px;
+line-height:1.8;
+opacity:0.9;
+}
 </style>
 </head>
-
 <body>
 
 <div class="container">
 
-<!-- HOME -->
-<div id="home" class="page">
+<div id="home">
 <div class="card">
 <h2>🚀 خرید VPN پرسرعت</h2>
+<p class="small">اتصال پایدار • سرعت بالا • پشتیبانی سریع</p>
 <button onclick="showPage('plans')">مشاهده پلن‌ها</button>
 </div>
 </div>
 
-<!-- PLANS -->
-<div id="plans" class="page hidden">
+<div id="plans" class="hidden">
 <div class="card">
-<h3>انتخاب پلن</h3>
+<h3>انتخاب پلن (یک‌ماهه)</h3>
 
-<div class="plan-card" onclick="selectPlan(this,'10 گیگ',80000)">10 گیگ - 80,000</div>
-<div class="plan-card" onclick="selectPlan(this,'20 گیگ',120000)">20 گیگ - 120,000</div>
-<div class="plan-card" onclick="selectPlan(this,'30 گیگ',180000)">30 گیگ - 180,000</div>
-<div class="plan-card" onclick="selectPlan(this,'50 گیگ',300000)">50 گیگ - 300,000</div>
+<div class="plans-grid">
+
+<div class="plan-card" onclick="selectPlan(this,'10 گیگ','80000')">
+<div class="plan-size">10 گیگ</div>
+<div class="plan-price">80,000 تومان</div>
+</div>
+
+<div class="plan-card" onclick="selectPlan(this,'20 گیگ','120000')">
+<div class="plan-size">20 گیگ</div>
+<div class="plan-price">120,000 تومان</div>
+</div>
+
+<div class="plan-card" onclick="selectPlan(this,'30 گیگ','180000')">
+<div class="plan-size">30 گیگ</div>
+<div class="plan-price">180,000 تومان</div>
+</div>
+
+<div class="plan-card" onclick="selectPlan(this,'50 گیگ','300000')">
+<div class="plan-size">50 گیگ</div>
+<div class="plan-price">300,000 تومان</div>
+</div>
+
+<div class="plan-card" onclick="selectPlan(this,'80 گیگ','480000')">
+<div class="plan-size">80 گیگ</div>
+<div class="plan-price">480,000 تومان</div>
+</div>
+
+<div class="plan-card" onclick="selectPlan(this,'100 گیگ','540000')">
+<div class="plan-size">100 گیگ</div>
+<div class="plan-price">540,000 تومان</div>
+</div>
+
+</div>
 
 <button onclick="goToPayment()">ادامه</button>
 <button onclick="showPage('home')">بازگشت</button>
+
 </div>
 </div>
 
-<!-- PAYMENT -->
-<div id="payment" class="page hidden">
+<div id="payment" class="hidden">
 <div class="card">
-<h3>پرداخت</h3>
+<h3>پرداخت و ارسال فیش</h3>
 
 <div id="selectedPlan"></div>
-<div>مبلغ: <strong id="priceBox"></strong></div>
+<div style="margin-top:8px;">💰 مبلغ: <strong id="priceBox"></strong></div>
 
 <hr>
 
-شماره کارت:<br>
-<strong>6219861850746008</strong><br>
-به نام: سام رنجبر
+<div class="small">
+💳 شماره کارت:<br>
+<strong>6219 8618 5074 6008</strong><br>
+به نام: <strong>سام رنجبر</strong>
+</div>
 
 <hr>
 
-<input type="text" id="telegramId" placeholder="آیدی تلگرام">
-<input type="file" id="receipt">
+<input type="text" id="telegramId" placeholder="آیدی تلگرام (@username)">
+<input type="file" id="receipt" accept="image/*">
 
 <button onclick="sendOrder()">ارسال فیش</button>
 <button onclick="showPage('home')">بازگشت</button>
+
 </div>
 </div>
 
@@ -125,32 +199,35 @@ font-size:14px;
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL = "https://einjufpqfwwwomutyliu.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_tN0r-fIK19hTI6ucKPuvhA_5V8ueB9B";
 
-const supabaseClient = supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_ANON_KEY
-);
+let selectedPlan="50 گیگ";
+let selectedPrice="300000";
 
-let selectedPlan = "";
-let selectedPrice = 0;
+const SUPABASE_URL="https://einiufpqfwwwomutlylu.supabase.co";
+const SUPABASE_KEY="sb_publishable_tN0r-fIK19hTI6ucKPuvhA_5V8ueB9B";
+
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
 function showPage(id){
-document.querySelectorAll(".page").forEach(p=>p.classList.add("hidden"));
-document.getElementById(id).classList.remove("hidden");
+["home","plans","payment","about"].forEach(p=>{
+let el=document.getElementById(p);
+if(el) el.classList.add("hidden");
+});
+let target=document.getElementById(id);
+if(target) target.classList.remove("hidden");
 }
 
 function selectPlan(element,plan,price){
-document.querySelectorAll(".plan-card").forEach(c=>c.classList.remove("active"));
+document.querySelectorAll(".plan-card").forEach(c=>{
+c.classList.remove("active");
+});
 element.classList.add("active");
 selectedPlan=plan;
 selectedPrice=price;
 }
 
 function goToPayment(){
-if(!selectedPlan){alert("پلن انتخاب کن");return;}
-document.getElementById("selectedPlan").innerText="پلن: "+selectedPlan;
+document.getElementById("selectedPlan").innerText="پلن انتخابی: "+selectedPlan;
 document.getElementById("priceBox").innerText=
 Number(selectedPrice).toLocaleString("en-US")+" تومان";
 showPage("payment");
@@ -158,47 +235,55 @@ showPage("payment");
 
 async function sendOrder(){
 
-if(!selectedPlan){alert("پلن انتخاب کن");return;}
-
 let tg=document.getElementById("telegramId").value.trim();
-if(!tg){alert("آیدی تلگرام را وارد کن");return;}
+let file=document.getElementById("receipt");
+
+if(tg===""){ alert("آیدی تلگرام را وارد کنید"); return; }
 if(!tg.startsWith("@")) tg="@"+tg;
+if(file.files.length===0){ alert("عکس فیش را انتخاب کنید"); return; }
 
-let fileInput=document.getElementById("receipt");
-if(fileInput.files.length===0){alert("فیش انتخاب کن");return;}
+let receiptFile=file.files[0];
+let fileName=Date.now()+"-"+receiptFile.name;
 
-const file=fileInput.files[0];
-const fileName=Date.now()+"-"+file.name;
-
-// upload
-const {error:uploadError}=await supabaseClient
+let {error:uploadError}=await supabaseClient
 .storage.from("receipts")
-.upload(fileName,file);
+.upload(fileName,receiptFile);
 
-if(uploadError){alert("خطا در آپلود");return;}
+if(uploadError){
+alert("خطا در آپلود عکس");
+console.log(uploadError);
+return;
+}
 
-const {data}=supabaseClient
+let {data:publicUrlData}=supabaseClient
 .storage.from("receipts")
 .getPublicUrl(fileName);
 
-const receiptUrl=data.publicUrl;
+let receiptUrl=publicUrlData.publicUrl;
 
-// insert
-const {error:insertError}=await supabaseClient
+let {error:insertError}=await supabaseClient
 .from("orders")
-.insert([{plan:selectedPlan,
-price:selectedPrice+" تومان",
+.insert([{
+plan:selectedPlan,
+price:Number(selectedPrice).toLocaleString("en-US")+" تومان",
 telegram_id:tg,
 receipt_url:receiptUrl
 }]);
 
-if(insertError){alert("خطا در ثبت سفارش");return;}
-
-
+if(insertError){
+alert("خطا در ثبت سفارش");
+console.log(insertError);
+return;
+}
 
 alert("سفارش ثبت شد ✅");
 showPage("home");
 }
+
+function openSupport(){
+window.open("https://t.me/noorrvpn","_blank");
+}
+
 </script>
 
 </body>
