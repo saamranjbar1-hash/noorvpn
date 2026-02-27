@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Panel</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body style="background:#111;color:white;font-family:sans-serif;padding:20px;">
+
+<h2>📦 سفارش‌ها</h2>
+
+<div id="orders"></div>
+
+<script>
+const SUPABASE_URL = "https://einiufpqfwwwomutlylu.supabase.co";
+const SUPABASE_KEY = "sb_publishable_tN0r-fIK19hTI6ucKPuvhA_5V8ueB9B";
+
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function loadOrders() {
+  const { data, error } = await supabaseClient
+    .from("orders")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    alert("خطا در گرفتن سفارش‌ها");
+    return;
+  }
+
+  const container = document.getElementById("orders");
+  container.innerHTML = "";
+
+  data.forEach(order => {
+    container.innerHTML += `
+      <div style="border:1px solid #444;padding:15px;margin-bottom:10px;border-radius:8px;">
+        <p><b>پلن:</b> ${order.plan}</p>
+        <p><b>مبلغ:</b> ${order.price}</p>
+        <p><b>وضعیت:</b> ${order.status}</p>
+        <button onclick="approveOrder('${order.id}')"
+          style="background:green;color:white;padding:5px 10px;border:none;border-radius:5px;">
+          Approve
+        </button>
+      </div>
+    `;
+  });
+}
+
+async function approveOrder(id) {
+  await supabaseClient
+    .from("orders")
+    .update({ status: "approved" })
+    .eq("id", id);
+
+  alert("سفارش تایید شد");
+  loadOrders();
+}
+
+loadOrders();
+</script>
+
+</body>
+</html>
