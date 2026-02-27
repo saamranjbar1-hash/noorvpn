@@ -34,6 +34,23 @@ async function loadOrders() {
   data.forEach(order => {
     container.innerHTML += `
       <div style="border:1px solid #444;padding:15px;margin-bottom:10px;border-radius:8px;">
+        <p>پلن: ${order.plan}</p>
+        <p>قیمت: ${order.price}</p>
+        <p>وضعیت: ${order.status}</p>
+      </div>
+    `;
+  });
+}
+
+
+loadOrders();
+
+  const container = document.getElementById("orders");
+  container.innerHTML = "";
+
+  data.forEach(order => {
+    container.innerHTML += `
+      <div style="border:1px solid #444;padding:15px;margin-bottom:10px;border-radius:8px;">
         <p><b>پلن:</b> ${order.plan}</p>
         <p><b>مبلغ:</b> ${order.price}</p>
         <p><b>وضعیت:</b> ${order.status}</p>
@@ -44,7 +61,7 @@ async function loadOrders() {
       </div>
     `;
   });
-}
+
 
 async function approveOrder(id) {
   await supabaseClient
